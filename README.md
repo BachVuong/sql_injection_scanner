@@ -1,17 +1,17 @@
-# SQL Injection Scanner
+SQL Injection Scanner
 
-## 🎯 Mục tiêu
+Mục tiêu
 Crawl website, phát hiện URL có tham số, inject payload để phát hiện SQLi (SQL Injection).
 
-## ⚙️ Công nghệ sử dụng
+Công nghệ sử dụng
 - Python 3
 - Requests
 - BeautifulSoup
 - Manual payload injection
 
-## 🚀 Cách chạy
+Cách chạy
 
-```bash
+bash
 python3 -m venv myenv
 source myenv/bin/activate
 pip install -r requirements.txt
