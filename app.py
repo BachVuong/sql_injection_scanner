@@ -36,7 +36,7 @@ if scan_btn:
 
         if vulnerable:
             st.success(f"🎉 Phát hiện {len(vulnerable)} URL dễ bị tấn công SQLi!")
-            if st.button("📄 Xem báo cáo"):
+            if st.button("📄 Tiếp tục kiểm tra"):
                 st.code("\n".join(vulnerable))
         else:
             st.info("✅ Không phát hiện SQLi nào.")
