@@ -28,7 +28,6 @@ if scan_btn:
     else:
         st.info("🔍 Đang thu thập URL có tham số...")
         urls = find_links_with_params(target)
-        st.success(f"Tìm được {len(urls)} URL có tham số")
 
         payloads = load_payloads("payloads/sqli.txt")
         vulnerable = []
