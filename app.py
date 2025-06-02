@@ -4,16 +4,25 @@ from crawler.crawl_urls import find_links_with_params
 from scanner.sqli_scanner import inject_payload, load_payloads
 from datetime import datetime
 
-# Cấu hình giao diện
+# ------------------ Hàm phân loại mức độ nghiêm trọng ------------------
+def classify_severity(payload):
+    payload = payload.lower()
+    if "union" in payload:
+        return "High"
+    elif "or" in payload:
+        return "Medium"
+    elif "and" in payload:
+        return "Low"
+    return "Low"
+
+# ------------------ Cấu hình giao diện ------------------
 st.set_page_config(page_title="SQL Injection Scanner", page_icon="🛡️")
 
-# Khởi tạo session state
 if "current_tab" not in st.session_state:
     st.session_state.current_tab = "Quét SQLi"
 if "selected_report" not in st.session_state:
     st.session_state.selected_report = None
 
-# Sidebar chuyển tab
 st.sidebar.title("🔧 Menu")
 tab = st.sidebar.radio("Chọn chức năng", ["Quét SQLi", "Xem báo cáo"])
 st.session_state.current_tab = tab
@@ -44,22 +53,43 @@ if st.session_state.current_tab == "Quét SQLi":
                     for payload in payloads:
                         result = inject_payload(url, payload)
                         if result:
-                            st.warning(f"Phát hiện SQLi: {result}")
-                            vulnerable.append(result)
+                            severity = classify_severity(payload)
+                            st.warning(f"Phát hiện SQLi [{severity}]: {result}")
+                            vulnerable.append((result, severity))
                             break
 
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             os.makedirs(REPORT_DIR, exist_ok=True)
             report_file = f"report_{timestamp}.txt"
             with open(os.path.join(REPORT_DIR, report_file), "w") as f:
-                for v in vulnerable:
-                    f.write(f"{v}\n")
+                f.write("SQL Injection Scan Report\n")
+                f.write(f"Target: {target}\n")
+                f.write(f"Time: {timestamp}\n")
+                f.write(f"Total Vulnerabilities: {len(vulnerable)}\n\n")
+                severity_count = {"High": 0, "Medium": 0, "Low": 0}
+
+                for v, s in vulnerable:
+                    f.write(f"[{s}] {v}\n")
+                    severity_count[s] += 1
+
+                f.write("\nSeverity Summary:\n")
+                for level in ["High", "Medium", "Low"]:
+                    f.write(f"- {level}: {severity_count[level]}\n")
 
             st.session_state.selected_report = report_file
 
             if vulnerable:
                 st.success(f"Phát hiện {len(vulnerable)} URL dễ bị tấn công SQLi!")
-                st.code("\n".join(vulnerable))
+
+                st.markdown("Mức độ nghiêm trọng:")
+                for level in ["High", "Medium", "Low"]:
+                    count = sum(1 for _, s in vulnerable if s == level)
+                    if count > 0:
+                        st.markdown(f"- **{level}**: {count} lỗ hổng")
+
+                st.markdown("Chi tiết:")
+                for v, s in vulnerable:
+                    st.write(f"[{s}] {v}")
             else:
                 st.info("Không phát hiện SQLi nào.")
 
